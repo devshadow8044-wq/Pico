@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f2f3f5">
+  <title>Administration · RANGERS INVEST</title>
+  
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/js/static-site.js" defer></script>
+</head>
+<body data-page="admin"><section class="notice warning static-site-notice" role="status">Version statique : consultation uniquement. Aucun compte, mot de passe, dépôt, retrait ou changement n’est enregistré.</section>
+  <main class="shell admin-shell">
+    <header class="topbar">
+      <a class="brand" href="/index.html"><span class="brand-monogram" aria-hidden="true">R</span><span>RANGERS INVEST</span></a>
+      <button class="top-action logout-link" data-logout type="button">Déconnexion</button>
+    </header>
+    <h1 class="page-title">Administration</h1>
+    <p class="subtle">Espace privé de gestion des comptes, offres et demandes.</p>
+    <div data-global-message hidden></div>
+
+    <section class="card product-admin" data-admin-products hidden>
+      <h2 class="section-heading">Catalogue produits</h2>
+      <p class="notice warning">Une offre reste en brouillon tant que ses conditions ne sont pas renseignées. Sa publication rendra les textes visibles publiquement; la référence de validation saisie doit être réelle et vérifiée par l’administrateur.</p>
+      <form class="form" data-form="product" hidden>
+        <input disabled type="hidden" name="id"><input disabled type="hidden" name="imageUrl" value="">
+        <div class="field"><label for="product-name">Nom du produit</label><input disabled id="product-name" name="name" maxlength="100" required></div>
+        <div class="field"><label for="product-description">Description</label><textarea disabled id="product-description" name="description" rows="3" maxlength="2000"></textarea></div>
+        <div class="field-inline">
+          <div class="field"><label for="product-min">Montant minimum (XOF)</label><input disabled id="product-min" name="minXof" type="number" min="1" step="1"></div>
+          <div class="field"><label for="product-max">Montant maximum (XOF)</label><input disabled id="product-max" name="maxXof" type="number" min="1" step="1"></div>
+        </div>
+        <div class="field"><label for="product-duration">Durée (jours)</label><input disabled id="product-duration" name="durationDays" type="number" min="1" step="1"></div>
+        <div class="field"><label for="product-return">Modalités de rendement ou de résultat</label><textarea disabled id="product-return" name="returnMethod" rows="2" maxlength="500"></textarea></div>
+        <div class="field"><label for="product-fees">Frais et commissions</label><textarea disabled id="product-fees" name="feesDescription" rows="2" maxlength="500"></textarea></div>
+        <div class="field"><label for="product-withdrawal">Conditions de retrait</label><textarea disabled id="product-withdrawal" name="withdrawalTerms" rows="2" maxlength="1000"></textarea></div>
+        <div class="field"><label for="product-risk">Risques à communiquer</label><textarea disabled id="product-risk" name="riskDisclosure" rows="3" maxlength="1500"></textarea></div>
+        <div class="field"><label for="product-approval">Référence réelle de validation</label><input disabled id="product-approval" name="legalApprovalReference" maxlength="160"></div>
+        
+        <div class="field"><label for="product-status">État du catalogue</label><select disabled id="product-status" name="status"><option value="draft">Brouillon</option><option value="paused">Suspendu</option><option value="published">Publié</option></select></div>
+        <div class="admin-actions"><button disabled class="button" type="submit">Enregistrer le produit</button><button disabled class="button light" type="button" data-reset-product>Nouveau brouillon</button></div>
+      </form>
+    </section>
+
+    <section data-admin-content><div class="empty">Vérification de l’accès…</div></section>
+  </main>
+</body>
+</html>
