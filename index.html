@@ -2,405 +2,990 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050817">
 <title>PICOINVEST</title>
 
 <style>
-:root{--bg:#050817;--cyan:#00e5f2;--violet:#8254ff;--pink:#f02bd5;--white:#f5f7ff;--muted:#aeb8ce}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,sans-serif}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.shell{width:100%;max-width:520px;min-height:100vh;margin:auto;background:#050817;position:relative;overflow:hidden}
-.screen{display:none;min-height:100vh;padding-bottom:90px}
-.screen.active{display:block}
-.auth{position:relative;isolation:isolate;padding:22px 24px 35px;min-height:100vh;overflow:hidden}
-.auth:before{content:"";position:absolute;inset:0 0 auto;height:55%;z-index:-2;background-position:center;background-size:cover}
-.auth:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(2,5,18,.2),rgba(3,7,22,.45) 30%,#050817 65%)}
-.register:before{background-image:url("https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=85")}
-.login:before{background-image:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85")}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.12em;color:white}
-.brand-mark{width:35px;height:35px;border:2px solid var(--cyan);border-radius:11px;display:grid;place-items:center;color:var(--cyan);box-shadow:0 0 18px #00dff855}
-.topline{display:flex;justify-content:space-between;align-items:center}
-.link{color:var(--cyan);border:0;background:none;font-weight:bold}
-.auth-content{padding-top:clamp(190px,40vh,330px)}
-.login .auth-content{padding-top:clamp(210px,43vh,360px)}
-h1{font-size:42px;text-align:center;margin:0 0 10px;background:linear-gradient(90deg,var(--cyan),#8a9aff,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
-.subtitle{text-align:center;color:#d7def0;margin:0 0 30px}
-.form{display:grid;gap:13px}
-.phone-row{display:grid;grid-template-columns:112px 1fr;gap:9px}
-.field{width:100%;min-width:0;min-height:56px;border-radius:999px;border:1px solid transparent;background:linear-gradient(#0b1127,#0b1127) padding-box,linear-gradient(110deg,var(--cyan),var(--violet),var(--pink)) border-box;color:white;padding:0 17px;outline:none}
-.field::placeholder{color:#c5cce0}
-.field:focus{box-shadow:0 0 0 2px #00e5f244}
-select.field{padding:0 8px}
-.primary{width:min(100%,290px);min-height:58px;border:0;border-radius:999px;margin:8px auto 0;display:block;color:white;font-size:18px;font-weight:850;background:linear-gradient(100deg,var(--cyan),#526dff,var(--pink));box-shadow:0 8px 28px #6d39ff55}
-.auth-foot{text-align:center;margin-top:27px;color:#e5e9f6;font-size:14px}
-.disclaimer{font-size:10px;color:#8995b2;text-align:center;margin-top:30px;line-height:1.5}
-.header{padding:25px 20px 16px}
-.eyebrow{font-size:11px;letter-spacing:.22em;color:var(--cyan);font-weight:800}
-h2{font-size:27px;margin:7px 0}
-.muted{color:var(--muted);font-size:13px}
-.panel{margin:0 16px 15px;padding:18px;border:1px solid #27335b;border-radius:20px;background:linear-gradient(145deg,#111a35dd,#0a1025ee);box-shadow:0 12px 30px #0004}
-.hero{margin:0 16px 16px;min-height:210px;border-radius:23px;padding:20px;display:flex;flex-direction:column;justify-content:end;background:linear-gradient(90deg,#030719dd,#03071933),url("https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=85") center/cover;border:1px solid #34406b}
-.hero h2{max-width:270px;font-size:25px}
-.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 16px 16px}
-.shortcut{border:1px solid #26365b;background:#111a32;border-radius:15px;padding:13px 3px;color:#eaf2ff;font-size:11px}
-.shortcut b{display:block;color:var(--cyan);font-size:23px;margin-bottom:5px}
-.statgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.stat{padding:13px;border-radius:14px;background:#080e22;border:1px solid #26345a}
-.stat strong{display:block;font-size:20px;margin-top:5px}
-.nav{position:fixed;z-index:20;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,520px);display:none;padding:10px 7px;background:#060a1af2;border-top:1px solid #27335b}
-.nav.visible{display:flex}
-.nav button{flex:1;background:none;border:0;color:#9ba8c7;font-size:11px;display:grid;gap:4px;justify-items:center}
-.nav button.active{color:var(--cyan)}
-.nav b{font-size:20px}
-.action{border:0;border-radius:999px;padding:12px 18px;color:white;font-weight:800;background:linear-gradient(100deg,var(--cyan),var(--violet),var(--pink))}
-.secondary{border:1px solid #36446d;border-radius:13px;background:#101831;color:white;padding:11px 14px}
-.stack{display:grid;gap:12px}
-.toast{position:fixed;z-index:50;top:16px;left:50%;transform:translateX(-50%);max-width:90%;background:#f4f7ff;color:#0a1022;border-radius:12px;padding:12px 16px;font-size:13px;font-weight:700;display:none}
-.item{display:flex;gap:13px;align-items:center}
-.item img{width:105px;height:78px;object-fit:cover;border-radius:12px}
+:root {
+  --bg:#050817;
+  --cyan:#00e5f2;
+  --violet:#8254ff;
+  --pink:#f02bd5;
+  --white:#f5f7ff;
+  --muted:#aeb8ce;
+}
+
+* { box-sizing:border-box; }
+
+html,body {
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--white);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+
+[hidden] { display:none !important; }
+
+.shell {
+  width:100%;
+  max-width:520px;
+  min-height:100vh;
+  margin:auto;
+  background:#050817;
+  position:relative;
+  overflow:hidden;
+}
+
+.screen {
+  display:none;
+  min-height:100vh;
+  padding-bottom:90px;
+}
+
+.screen.active { display:block; }
+
+.auth {
+  position:relative;
+  isolation:isolate;
+  padding:22px 24px 35px;
+  min-height:100vh;
+  overflow:hidden;
+}
+
+.auth:before {
+  content:"";
+  position:absolute;
+  inset:0 0 auto;
+  height:55%;
+  z-index:-2;
+  background-position:center;
+  background-size:cover;
+}
+
+.auth:after {
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:linear-gradient(
+    180deg,
+    rgba(2,5,18,.2),
+    rgba(3,7,22,.45) 30%,
+    #050817 65%
+  );
+}
+
+.register:before {
+  background-image:url("https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=85");
+}
+
+.login:before {
+  background-image:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85");
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  color:white;
+}
+
+.brand-mark {
+  width:35px;
+  height:35px;
+  border:2px solid var(--cyan);
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  color:var(--cyan);
+  box-shadow:0 0 18px #00dff855;
+}
+
+.topline {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.link {
+  color:var(--cyan);
+  border:0;
+  background:none;
+  font-weight:bold;
+}
+
+.auth-content {
+  padding-top:clamp(190px,40vh,330px);
+}
+
+.login .auth-content {
+  padding-top:clamp(210px,43vh,360px);
+}
+
+h1 {
+  font-size:42px;
+  text-align:center;
+  margin:0 0 10px;
+  background:linear-gradient(90deg,var(--cyan),#8a9aff,var(--pink));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.subtitle {
+  text-align:center;
+  color:#d7def0;
+  margin:0 0 30px;
+}
+
+.form {
+  display:grid;
+  gap:13px;
+}
+
+.phone-row {
+  display:grid;
+  grid-template-columns:112px minmax(0,1fr);
+  gap:9px;
+}
+
+.field {
+  width:100%;
+  min-width:0;
+  min-height:56px;
+  border-radius:999px;
+  border:1px solid transparent;
+  background:
+    linear-gradient(#0b1127,#0b1127) padding-box,
+    linear-gradient(110deg,var(--cyan),var(--violet),var(--pink)) border-box;
+  color:white;
+  padding:0 17px;
+  outline:none;
+}
+
+.field::placeholder { color:#c5cce0; }
+
+.field:focus {
+  box-shadow:0 0 0 2px #00e5f244;
+}
+
+select.field { padding:0 8px; }
+
+.primary {
+  width:min(100%,290px);
+  min-height:58px;
+  border:0;
+  border-radius:999px;
+  margin:8px auto 0;
+  display:block;
+  color:white;
+  font-size:18px;
+  font-weight:850;
+  background:linear-gradient(100deg,var(--cyan),#526dff,var(--pink));
+  box-shadow:0 8px 28px #6d39ff55;
+}
+
+.auth-foot {
+  text-align:center;
+  margin-top:27px;
+  color:#e5e9f6;
+  font-size:14px;
+}
+
+.disclaimer {
+  font-size:10px;
+  color:#8995b2;
+  text-align:center;
+  margin-top:30px;
+  line-height:1.5;
+}
+
+.header { padding:25px 20px 16px; }
+
+.eyebrow {
+  font-size:11px;
+  letter-spacing:.22em;
+  color:var(--cyan);
+  font-weight:800;
+}
+
+h2 {
+  font-size:27px;
+  margin:7px 0;
+}
+
+.muted {
+  color:var(--muted);
+  font-size:13px;
+}
+
+.panel {
+  margin:0 16px 15px;
+  padding:18px;
+  border:1px solid #27335b;
+  border-radius:20px;
+  background:linear-gradient(145deg,#111a35dd,#0a1025ee);
+  box-shadow:0 12px 30px #0004;
+}
+
+.hero {
+  margin:0 16px 16px;
+  min-height:210px;
+  border-radius:23px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:end;
+  background:
+    linear-gradient(90deg,#030719dd,#03071933),
+    url("https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1200&q=85") center/cover;
+  border:1px solid #34406b;
+}
+
+.hero h2 {
+  max-width:270px;
+  font-size:25px;
+}
+
+.grid4 {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin:0 16px 16px;
+}
+
+.shortcut {
+  border:1px solid #26365b;
+  background:#111a32;
+  border-radius:15px;
+  padding:13px 3px;
+  color:#eaf2ff;
+  font-size:11px;
+}
+
+.shortcut b {
+  display:block;
+  color:var(--cyan);
+  font-size:23px;
+  margin-bottom:5px;
+}
+
+.statgrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+}
+
+.stat {
+  padding:13px;
+  border-radius:14px;
+  background:#080e22;
+  border:1px solid #26345a;
+}
+
+.stat strong {
+  display:block;
+  font-size:20px;
+  margin-top:5px;
+}
+
+.nav {
+  position:fixed;
+  z-index:20;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(100%,520px);
+  display:none;
+  padding:10px 7px;
+  background:#060a1af2;
+  border-top:1px solid #27335b;
+}
+
+.nav.visible { display:flex; }
+
+.nav button {
+  flex:1;
+  background:none;
+  border:0;
+  color:#9ba8c7;
+  font-size:11px;
+  display:grid;
+  gap:4px;
+  justify-items:center;
+}
+
+.nav button.active { color:var(--cyan); }
+.nav b { font-size:20px; }
+
+.action {
+  border:0;
+  border-radius:999px;
+  padding:12px 18px;
+  color:white;
+  font-weight:800;
+  background:linear-gradient(100deg,var(--cyan),var(--violet),var(--pink));
+}
+
+.secondary {
+  border:1px solid #36446d;
+  border-radius:13px;
+  background:#101831;
+  color:white;
+  padding:11px 14px;
+}
+
+.stack {
+  display:grid;
+  gap:12px;
+}
+
+.toast {
+  position:fixed;
+  z-index:50;
+  top:16px;
+  left:50%;
+  transform:translateX(-50%);
+  max-width:90%;
+  background:#f4f7ff;
+  color:#0a1022;
+  border-radius:12px;
+  padding:12px 16px;
+  font-size:13px;
+  font-weight:700;
+  display:none;
+}
+
+.item {
+  display:flex;
+  gap:13px;
+  align-items:center;
+}
+
+.item img {
+  width:105px;
+  height:78px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+@media(max-width:360px) {
+  .auth { padding-left:15px; padding-right:15px; }
+  .phone-row { grid-template-columns:100px minmax(0,1fr); }
+}
+
+@media(min-width:700px) {
+  body { background:#02040d; }
+  .shell {
+    border-left:1px solid #20294a;
+    border-right:1px solid #20294a;
+  }
+}
 </style>
 </head>
 
 <body>
 <div class="shell">
-<div id="toast" class="toast"></div>
 
-<section id="register" class="screen active auth register">
-<div class="topline">
-<div class="brand"><span class="brand-mark">P</span>PICOINVEST</div>
-<button class="link" onclick="showScreen('login')">Connexion</button>
-</div>
-<div class="auth-content">
-<h1>Inscription</h1>
-<p class="subtitle">Créez votre espace personnel</p>
-<form class="form" onsubmit="registerUser(event)">
-<div class="phone-row">
-<select id="regCountry" class="field">
-<option value="+221">🇸🇳 +221</option>
-<option value="+225">🇨🇮 +225</option>
-<option value="+228">🇹🇬 +228</option>
-<option value="+229">🇧🇯 +229</option>
-<option value="+223">🇲🇱 +223</option>
-<option value="+226">🇧🇫 +226</option>
-<option value="+224">🇬🇳 +224</option>
-<option value="+237">🇨🇲 +237</option>
-<option value="+234">🇳🇬 +234</option>
-<option value="+33">🇫🇷 +33</option>
-</select>
-<input id="regPhone" class="field" placeholder="Numéro de téléphone" required>
-</div>
-<input id="regPassword" class="field" type="password" minlength="6" placeholder="Mot de passe" required>
-<input id="regConfirm" class="field" type="password" minlength="6" placeholder="Confirmer le mot de passe" required>
-<input id="regInvite" class="field" placeholder="Code invitation (facultatif)">
-<button class="primary" type="submit">S'inscrire ➜</button>
-</form>
-<p class="auth-foot">Déjà inscrit ? <button class="link" onclick="showScreen('login')">Se connecter</button></p>
-<p class="disclaimer">Version de démonstration locale. Aucun paiement réel n'est effectué.</p>
-</div>
+<div id="toast" class="toast" role="status"></div>
+
+<!-- INSCRIPTION -->
+<section id="register" class="screen auth register active">
+
+  <div class="topline">
+    <div class="brand">
+      <span class="brand-mark">P</span>
+      <span>ICOINVEST</span>
+    </div>
+    <button class="link" onclick="showScreen('login')">Connexion</button>
+  </div>
+
+  <div class="auth-content">
+    <h1>Inscription</h1>
+    <p class="subtitle">Créez votre espace personnel</p>
+
+    <form class="form" onsubmit="registerUser(event)">
+
+      <div class="phone-row">
+        <select id="regCountry" class="field">
+          <option value="+221">🇸🇳 +221</option>
+          <option value="+225">🇨🇮 +225</option>
+          <option value="+228">🇹🇬 +228</option>
+          <option value="+229">🇧🇯 +229</option>
+          <option value="+223">🇲🇱 +223</option>
+          <option value="+226">🇧🇫 +226</option>
+          <option value="+224">🇬🇳 +224</option>
+          <option value="+237">🇨🇲 +237</option>
+          <option value="+234">🇳🇬 +234</option>
+          <option value="+33">🇫🇷 +33</option>
+        </select>
+
+        <input id="regPhone" class="field"
+          type="tel" placeholder="Numéro de téléphone" required>
+      </div>
+
+      <input id="regPassword" class="field"
+        type="password" minlength="6"
+        placeholder="Mot de passe" required>
+
+      <input id="regConfirm" class="field"
+        type="password" minlength="6"
+        placeholder="Confirmer le mot de passe" required>
+
+      <input id="regInvite" class="field"
+        placeholder="Code invitation (facultatif)">
+
+      <button class="primary" type="submit">S'inscrire ➜</button>
+
+    </form>
+
+    <p class="auth-foot">
+      Déjà inscrit ?
+      <button class="link" onclick="showScreen('login')">Se connecter</button>
+    </p>
+
+    <p class="disclaimer">
+      Version de démonstration locale. Aucun paiement réel n'est effectué.
+    </p>
+  </div>
 </section>
 
-<section id="login" class="screen auth login">
-<div class="topline">
-<div class="brand"><span class="brand-mark">P</span>PICOINVEST</div>
-<button class="link" onclick="showScreen('register')">Inscription</button>
-</div>
-<div class="auth-content">
-<h1>Connexion</h1>
-<p class="subtitle">Accédez à votre compte</p>
-<form class="form" onsubmit="loginUser(event)">
-<div class="phone-row">
-<select id="loginCountry" class="field">
-<option value="+221">🇸🇳 +221</option>
-<option value="+225">🇨🇮 +225</option>
-<option value="+228">🇹🇬 +228</option>
-<option value="+229">🇧🇯 +229</option>
-<option value="+223">🇲🇱 +223</option>
-<option value="+226">🇧🇫 +226</option>
-<option value="+224">🇬🇳 +224</option>
-<option value="+237">🇨🇲 +237</option>
-<option value="+234">🇳🇬 +234</option>
-<option value="+33">🇫🇷 +33</option>
-</select>
-<input id="loginPhone" class="field" placeholder="Numéro de téléphone" required>
-</div>
-<input id="loginPassword" class="field" type="password" placeholder="Mot de passe" required>
-<button class="primary" type="submit">Se connecter ➜</button>
-</form>
-<p class="auth-foot">Pas encore de compte ? <button class="link" onclick="showScreen('register')">S'inscrire</button></p>
-</div>
+<!-- CONNEXION -->
+<section id="login" class="screen auth login" hidden>
+
+  <div class="topline">
+    <div class="brand">
+      <span class="brand-mark">P</span>
+      <span>ICOINVEST</span>
+    </div>
+    <button class="link" onclick="showScreen('register')">Inscription</button>
+  </div>
+
+  <div class="auth-content">
+    <h1>Connexion</h1>
+    <p class="subtitle">Accédez à votre compte</p>
+
+    <form class="form" onsubmit="loginUser(event)">
+
+      <div class="phone-row">
+        <select id="loginCountry" class="field">
+          <option value="+221">🇸🇳 +221</option>
+          <option value="+225">🇨🇮 +225</option>
+          <option value="+228">🇹🇬 +228</option>
+          <option value="+229">🇧🇯 +229</option>
+          <option value="+223">🇲🇱 +223</option>
+          <option value="+226">🇧🇫 +226</option>
+          <option value="+224">🇬🇳 +224</option>
+          <option value="+237">🇨🇲 +237</option>
+          <option value="+234">🇳🇬 +234</option>
+          <option value="+33">🇫🇷 +33</option>
+        </select>
+
+        <input id="loginPhone" class="field"
+          type="tel" placeholder="Numéro de téléphone" required>
+      </div>
+
+      <input id="loginPassword" class="field"
+        type="password" placeholder="Mot de passe" required>
+
+      <button class="primary" type="submit">Se connecter ➜</button>
+
+    </form>
+
+    <p class="auth-foot">
+      Pas encore de compte ?
+      <button class="link" onclick="showScreen('register')">S'inscrire</button>
+    </p>
+  </div>
 </section>
 
-<section id="home" class="screen">
-<header class="header">
-<div class="brand"><span class="brand-mark">P</span>PICOINVEST</div>
-<p class="eyebrow">ESPACE MEMBRE</p>
-<h2>Bienvenue</h2>
-</header>
-<div class="hero">
-<span class="eyebrow">MOBILITÉ & INNOVATION</span>
-<h2>Découvrez notre univers automobile</h2>
-<p class="muted">Consultez les informations disponibles.</p>
-</div>
-<div class="grid4">
-<button class="shortcut" onclick="showScreen('recharge')"><b>＋</b>Recharger</button>
-<button class="shortcut" onclick="showScreen('withdraw')"><b>↗</b>Retirer</button>
-<button class="shortcut" onclick="notify('Contactez le service client.')"><b>◉</b>Assistance</button>
-<button class="shortcut" onclick="checkIn()"><b>✓</b>Pointage</button>
-</div>
-<div class="panel">
-<p class="eyebrow">ACTIVITÉS</p>
-<h3>Votre espace PICOINVEST</h3>
-<p class="muted">Retrouvez les différentes rubriques depuis la navigation en bas.</p>
-<button class="action" onclick="showScreen('products')">Voir les produits</button>
-</div>
-<div class="panel">
-<h3>Information importante</h3>
-<p class="muted">Cette version est une maquette locale. Elle ne traite aucun paiement et ne constitue pas un service financier opérationnel.</p>
-</div>
+<!-- ACCUEIL -->
+<section id="home" class="screen" hidden>
+
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark">P</span>
+      <span>ICOINVEST</span>
+    </div>
+
+    <p class="eyebrow">ESPACE MEMBRE</p>
+    <h2>Bienvenue</h2>
+  </header>
+
+  <div class="hero">
+    <span class="eyebrow">MOBILITÉ & INNOVATION</span>
+    <h2>Découvrez notre univers automobile</h2>
+    <p class="muted">Consultez les informations disponibles.</p>
+  </div>
+
+  <div class="grid4">
+    <button class="shortcut" onclick="showScreen('recharge')">
+      <b>＋</b>Recharger
+    </button>
+
+    <button class="shortcut" onclick="showScreen('withdraw')">
+      <b>↗</b>Retirer
+    </button>
+
+    <button class="shortcut" onclick="notify('Contactez le service client.')">
+      <b>◉</b>Assistance
+    </button>
+
+    <button class="shortcut" onclick="checkIn()">
+      <b>✓</b>Pointage
+    </button>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">ACTIVITÉS</p>
+    <h3>Votre espace PICOINVEST</h3>
+    <p class="muted">
+      Retrouvez les différentes rubriques depuis la navigation en bas.
+    </p>
+    <button class="action" onclick="showScreen('products')">
+      Voir les produits
+    </button>
+  </div>
+
+  <div class="panel">
+    <h3>Information importante</h3>
+    <p class="muted">
+      Cette version est une maquette locale. Elle ne traite aucun paiement
+      et ne constitue pas un service financier opérationnel.
+    </p>
+  </div>
 </section>
 
-<section id="products" class="screen">
-<header class="header"><p class="eyebrow">CATALOGUE</p><h2>Produits</h2></header>
-<div id="productList"></div>
+<!-- PRODUITS -->
+<section id="products" class="screen" hidden>
+  <header class="header">
+    <p class="eyebrow">CATALOGUE</p>
+    <h2>Produits</h2>
+  </header>
+  <div id="productList"></div>
 </section>
 
-<section id="team" class="screen">
-<header class="header"><p class="eyebrow">COMMUNAUTÉ</p><h2>Équipe</h2></header>
-<div class="panel">
-<p class="muted">Code d'invitation de démonstration</p>
-<div class="item">
-<input class="field" id="inviteCode" value="PICO-DEMO" readonly>
-<button class="action" onclick="copyCode()">Copier</button>
-</div>
-<p class="muted">Les invitations et commissions ne sont pas suivies par un serveur dans cette maquette.</p>
-</div>
+<!-- ÉQUIPE -->
+<section id="team" class="screen" hidden>
+  <header class="header">
+    <p class="eyebrow">COMMUNAUTÉ</p>
+    <h2>Équipe</h2>
+  </header>
+
+  <div class="panel">
+    <p class="muted">Code d'invitation de démonstration</p>
+
+    <div class="item">
+      <input class="field" id="inviteCode" value="PICO-DEMO" readonly>
+      <button class="action" onclick="copyCode()">Copier</button>
+    </div>
+
+    <p class="muted">
+      Les invitations et commissions ne sont pas suivies par un serveur
+      dans cette maquette.
+    </p>
+  </div>
 </section>
 
-<section id="account" class="screen">
-<header class="header"><p class="eyebrow">MON ESPACE</p><h2>Compte</h2></header>
-<div class="panel">
-<p class="muted">Compte utilisateur</p>
-<strong id="accountPhone">Non connecté</strong>
-<div class="statgrid">
-<div class="stat"><span class="muted">Solde de démonstration</span><strong>0 FCFA</strong></div>
-<div class="stat"><span class="muted">Revenus cumulés</span><strong>0 FCFA</strong></div>
-</div>
-</div>
-<div class="panel stack">
-<button class="secondary" onclick="showScreen('history')">Historique</button>
-<button class="secondary" onclick="showScreen('bank')">Moyen de paiement (démo)</button>
-<button class="secondary" onclick="logout()">Déconnexion</button>
-</div>
+<!-- COMPTE -->
+<section id="account" class="screen" hidden>
+  <header class="header">
+    <p class="eyebrow">MON ESPACE</p>
+    <h2>Compte</h2>
+  </header>
+
+  <div class="panel">
+    <p class="muted">Compte utilisateur</p>
+    <strong id="accountPhone">Non connecté</strong>
+
+    <div class="statgrid">
+      <div class="stat">
+        <span class="muted">Solde de démonstration</span>
+        <strong>0 FCFA</strong>
+      </div>
+
+      <div class="stat">
+        <span class="muted">Revenus cumulés</span>
+        <strong>0 FCFA</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel stack">
+    <button class="secondary" onclick="showScreen('history')">Historique</button>
+    <button class="secondary" onclick="showScreen('bank')">Moyen de paiement (démo)</button>
+    <button class="secondary" onclick="logout()">Déconnexion</button>
+  </div>
 </section>
 
-<section id="recharge" class="screen">
-<header class="header"><p class="eyebrow">OPÉRATIONS</p><h2>Recharge</h2></header>
-<div class="panel stack">
-<label for="rechargeAmount">Montant (FCFA)</label>
-<input id="rechargeAmount" class="field" type="number" min="1" placeholder="Montant souhaité">
-<select id="rechargeMethod" class="field">
-<option>Wave — non connecté</option>
-<option>Orange Money — non connecté</option>
-<option>Free Money — non connecté</option>
-</select>
-<button class="action" onclick="saveOperation('Recharge')">Créer une demande de test</button>
-<p class="muted">Aucun paiement n'est déclenché.</p>
-<button class="secondary" onclick="showScreen('account')">Retour</button>
-</div>
+<!-- RECHARGE -->
+<section id="recharge" class="screen" hidden>
+  <header class="header">
+    <p class="eyebrow">OPÉRATIONS</p>
+    <h2>Recharge</h2>
+  </header>
+
+  <div class="panel stack">
+    <label for="rechargeAmount">Montant (FCFA)</label>
+    <input id="rechargeAmount" class="field"
+      type="number" min="1" placeholder="Montant souhaité">
+
+    <select id="rechargeMethod" class="field">
+      <option>Wave — non connecté</option>
+      <option>Orange Money — non connecté</option>
+      <option>Free Money — non connecté</option>
+    </select>
+
+    <button class="action" onclick="saveOperation('Recharge')">
+      Créer une demande de test
+    </button>
+
+    <p class="muted">Aucun paiement n'est déclenché.</p>
+    <button class="secondary" onclick="showScreen('account')">Retour</button>
+  </div>
 </section>
 
-<section id="withdraw" class="screen">
-<header class="header"><p class="eyebrow">OPÉRATIONS</p><h2>Retrait</h2></header>
-<div class="panel stack">
-<label for="withdrawAmount">Montant (FCFA)</label>
-<input id="withdrawAmount" class="field" type="number" min="1" placeholder="Montant souhaité">
-<select id="withdrawMethod" class="field">
-<option>Wave</option>
-<option>Orange Money</option>
-<option>Free Money</option>
-</select>
-<button class="action" onclick="saveOperation('Retrait')">Créer une demande de test</button>
-<p class="muted">Aucun transfert d'argent n'est effectué.</p>
-<button class="secondary" onclick="showScreen('account')">Retour</button>
-</div>
+<!-- RETRAIT -->
+<section id="withdraw" class="screen" hidden>
+  <header class="header">
+    <p class="eyebrow">OPÉRATIONS</p>
+    <h2>Retrait</h2>
+  </header>
+
+  <div class="panel stack">
+    <label for="withdrawAmount">Montant (FCFA)</label>
+    <input id="withdrawAmount" class="field"
+      type="number" min="1" placeholder="Montant souhaité">
+
+    <select id="withdrawMethod" class="field">
+      <option>Wave</option>
+      <option>Orange Money</option>
+      <option>Free Money</option>
+    </select>
+
+    <button class="action" onclick="saveOperation('Retrait')">
+      Créer une demande de test
+    </button>
+
+    <p class="muted">Aucun transfert d'argent n'est effectué.</p>
+    <button class="secondary" onclick="showScreen('account')">Retour</button>
+  </div>
 </section>
 
-<section id="bank" class="screen">
-<header class="header"><p class="eyebrow">PAIEMENTS</p><h2>Moyen de paiement</h2></header>
-<div class="panel stack">
-<input id="bankHolder" class="field" placeholder="Nom du titulaire">
-<input id="bankNumber" class="field" placeholder="Téléphone ou référence">
-<button class="action" onclick="saveBank()">Enregistrer localement</button>
-<p id="bankInfo" class="muted"></p>
-<button class="secondary" onclick="showScreen('account')">Retour</button>
-</div>
+<!-- MOYEN DE PAIEMENT -->
+<section id="bank" class="screen" hidden>
+  <header class="header">
+    <p class="eyebrow">PAIEMENTS</p>
+    <h2>Moyen de paiement</h2>
+  </header>
+
+  <div class="panel stack">
+    <input id="bankHolder" class="field" placeholder="Nom du titulaire">
+    <input id="bankNumber" class="field" placeholder="Téléphone ou référence">
+
+    <button class="action" onclick="saveBank()">
+      Enregistrer localement
+    </button>
+
+    <p id="bankInfo" class="muted"></p>
+    <button class="secondary" onclick="showScreen('account')">Retour</button>
+  </div>
 </section>
 
-<section id="history" class="screen">
-<header class="header"><p class="eyebrow">ACTIVITÉ</p><h2>Historique</h2></header>
-<div id="historyList" class="panel muted">Aucune opération enregistrée.</div>
-<div class="panel"><button class="secondary" onclick="showScreen('account')">Retour</button></div>
+<!-- HISTORIQUE -->
+<section id="history" class="screen" hidden>
+  <header class="header">
+    <p class="eyebrow">ACTIVITÉ</p>
+    <h2>Historique</h2>
+  </header>
+
+  <div id="historyList" class="panel muted">
+    Aucune opération enregistrée.
+  </div>
+
+  <div class="panel">
+    <button class="secondary" onclick="showScreen('account')">Retour</button>
+  </div>
 </section>
 
+<!-- NAVIGATION -->
 <nav id="bottomNav" class="nav">
-<button data-id="home" onclick="showScreen('home')" class="active"><b>⌂</b>Accueil</button>
-<button data-id="products" onclick="showScreen('products')"><b>◇</b>Produit</button>
-<button data-id="team" onclick="showScreen('team')"><b>♧</b>Équipe</button>
-<button data-id="account" onclick="showScreen('account')"><b>◉</b>Compte</button>
+  <button data-id="home" onclick="showScreen('home')">
+    <b>⌂</b>Accueil
+  </button>
+
+  <button data-id="products" onclick="showScreen('products')">
+    <b>◇</b>Produit
+  </button>
+
+  <button data-id="team" onclick="showScreen('team')">
+    <b>♧</b>Équipe
+  </button>
+
+  <button data-id="account" onclick="showScreen('account')">
+    <b>◉</b>Compte
+  </button>
 </nav>
+
 </div>
 
 <script>
-const $=id=>document.getElementById(id);
-const get=(key,fallback)=>{
-try{return JSON.parse(localStorage.getItem(key))??fallback}
-catch{return fallback}
-};
+"use strict";
 
-let currentUser=get('pico_user',null);
-let operations=get('pico_operations',[]);
+const $ = id => document.getElementById(id);
 
-function notify(message){
-const el=$('toast');
-el.textContent=message;
-el.style.display='block';
-clearTimeout(window._toastTimer);
-window._toastTimer=setTimeout(()=>el.style.display='none',2600);
+function get(key, fallback) {
+  try {
+    return JSON.parse(localStorage.getItem(key)) ?? fallback;
+  } catch (error) {
+    return fallback;
+  }
 }
 
-function showScreen(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
-const auth=id==='register'||id==='login';
-$('bottomNav').classList.toggle('visible',!auth);
-document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
-if(id==='account')$('accountPhone').textContent=currentUser?currentUser.phone:'Non connecté';
-if(id==='history')renderHistory();
-window.scrollTo(0,0);
+let currentUser = get("pico_user", null);
+let operations = get("pico_operations", []);
+
+function notify(message) {
+  const el = $("toast");
+  el.textContent = message;
+  el.style.display = "block";
+
+  clearTimeout(window._toastTimer);
+
+  window._toastTimer = setTimeout(() => {
+    el.style.display = "none";
+  }, 2600);
 }
 
-function registerUser(event){
-event.preventDefault();
-const phone=$('regCountry').value+$('regPhone').value.trim();
-const password=$('regPassword').value;
-if(password!==$('regConfirm').value){
-notify('Les mots de passe ne correspondent pas.');
-return;
-}
-if(phone.length<8){
-notify('Vérifiez le numéro de téléphone.');
-return;
-}
-const users=get('pico_users',[]);
-if(users.some(u=>u.phone===phone)){
-notify('Ce numéro est déjà inscrit.');
-return;
-}
-users.push({phone,password,invite:$('regInvite').value.trim()});
-localStorage.setItem('pico_users',JSON.stringify(users));
-currentUser={phone};
-localStorage.setItem('pico_user',JSON.stringify(currentUser));
-notify('Inscription locale réussie.');
-showScreen('home');
+function showScreen(id) {
+  const target = $(id);
+
+  if (!target) return;
+
+  document.querySelectorAll(".screen").forEach(screen => {
+    const active = screen.id === id;
+
+    screen.classList.toggle("active", active);
+    screen.hidden = !active;
+  });
+
+  const auth = id === "register" || id === "login";
+
+  $("bottomNav").classList.toggle("visible", !auth);
+
+  document.querySelectorAll(".nav button").forEach(button => {
+    button.classList.toggle("active", button.dataset.id === id);
+  });
+
+  if (id === "account") {
+    $("accountPhone").textContent =
+      currentUser ? currentUser.phone : "Non connecté";
+  }
+
+  if (id === "history") {
+    renderHistory();
+  }
+
+  window.scrollTo(0, 0);
 }
 
-function loginUser(event){
-event.preventDefault();
-const phone=$('loginCountry').value+$('loginPhone').value.trim();
-const password=$('loginPassword').value;
-const users=get('pico_users',[]);
-const found=users.find(u=>u.phone===phone&&u.password===password);
-if(!found){
-notify('Numéro ou mot de passe incorrect.');
-return;
-}
-currentUser={phone};
-localStorage.setItem('pico_user',JSON.stringify(currentUser));
-notify('Connexion réussie.');
-showScreen('home');
+function registerUser(event) {
+  event.preventDefault();
+
+  const phone = $("regCountry").value + $("regPhone").value.trim();
+  const password = $("regPassword").value;
+  const confirm = $("regConfirm").value;
+
+  if (password !== confirm) {
+    notify("Les mots de passe ne correspondent pas.");
+    return;
+  }
+
+  if (phone.length < 8) {
+    notify("Vérifiez le numéro de téléphone.");
+    return;
+  }
+
+  const users = get("pico_users", []);
+
+  if (users.some(user => user.phone === phone)) {
+    notify("Ce numéro est déjà inscrit.");
+    return;
+  }
+
+  users.push({
+    phone: phone,
+    password: password,
+    invite: $("regInvite").value.trim()
+  });
+
+  localStorage.setItem("pico_users", JSON.stringify(users));
+
+  currentUser = { phone: phone };
+
+  localStorage.setItem("pico_user", JSON.stringify(currentUser));
+
+  notify("Inscription locale réussie.");
+
+  showScreen("home");
 }
 
-function logout(){
-currentUser=null;
-localStorage.removeItem('pico_user');
-notify('Vous êtes déconnecté.');
-showScreen('login');
+function loginUser(event) {
+  event.preventDefault();
+
+  const phone = $("loginCountry").value + $("loginPhone").value.trim();
+  const password = $("loginPassword").value;
+
+  const users = get("pico_users", []);
+
+  const found = users.find(user =>
+    user.phone === phone && user.password === password
+  );
+
+  if (!found) {
+    notify("Numéro ou mot de passe incorrect.");
+    return;
+  }
+
+  currentUser = { phone: phone };
+
+  localStorage.setItem("pico_user", JSON.stringify(currentUser));
+
+  notify("Connexion réussie.");
+
+  showScreen("home");
 }
 
-function checkIn(){
-notify('Le pointage réel nécessite un serveur. Fonction non activée.');
+function logout() {
+  currentUser = null;
+
+  localStorage.removeItem("pico_user");
+
+  notify("Vous êtes déconnecté.");
+
+  showScreen("login");
 }
 
-function saveOperation(type){
-const input=$(type==='Recharge'?'rechargeAmount':'withdrawAmount');
-const amount=Number(input.value);
-if(!amount||amount<=0){
-notify('Saisissez un montant valide.');
-return;
-}
-operations.unshift({type,amount,date:new Date().toLocaleString('fr-FR')});
-localStorage.setItem('pico_operations',JSON.stringify(operations));
-input.value='';
-notify('Demande de test enregistrée.');
-showScreen('history');
+function checkIn() {
+  notify("Le pointage réel nécessite un serveur. Fonction non activée.");
 }
 
-function renderHistory(){
-const list=$('historyList');
-if(!operations.length){
-list.textContent='Aucune opération enregistrée.';
-return;
-}
-list.innerHTML=operations.map(o=>`
-<div style="padding:12px 0;border-bottom:1px solid #29365a">
-<strong>${o.type}</strong>
-<div>${Number(o.amount).toLocaleString('fr-FR')} FCFA</div>
-<small class="muted">${o.date}</small>
-</div>`).join('');
+function saveOperation(type) {
+  const input = $(type === "Recharge" ? "rechargeAmount" : "withdrawAmount");
+  const amount = Number(input.value);
+
+  if (!amount || amount <= 0) {
+    notify("Saisissez un montant valide.");
+    return;
+  }
+
+  operations.unshift({
+    type: type,
+    amount: amount,
+    date: new Date().toLocaleString("fr-FR")
+  });
+
+  localStorage.setItem("pico_operations", JSON.stringify(operations));
+
+  input.value = "";
+
+  notify("Demande de test enregistrée.");
+
+  showScreen("history");
 }
 
-function saveBank(){
-const holder=$('bankHolder').value.trim();
-const number=$('bankNumber').value.trim();
-if(!holder||!number){
-notify('Remplissez les deux champs.');
-return;
-}
-$('bankInfo').textContent='Coordonnées enregistrées localement : '+holder+' — '+number;
-notify('Enregistré sur cet appareil.');
+function renderHistory() {
+  const list = $("historyList");
+
+  if (!operations.length) {
+    list.textContent = "Aucune opération enregistrée.";
+    return;
+  }
+
+  list.innerHTML = operations.map(operation => `
+    <div style="padding:12px 0;border-bottom:1px solid #29365a">
+      <strong>${operation.type}</strong>
+      <div>${Number(operation.amount).toLocaleString("fr-FR")} FCFA</div>
+      <small class="muted">${operation.date}</small>
+    </div>
+  `).join("");
 }
 
-function copyCode(){
-const value=$('inviteCode').value;
-if(navigator.clipboard&&navigator.clipboard.writeText){
-navigator.clipboard.writeText(value)
-.then(()=>notify('Code copié.'))
-.catch(()=>notify('Code : '+value));
-}else{
-notify('Code : '+value);
-}
+function saveBank() {
+  const holder = $("bankHolder").value.trim();
+  const number = $("bankNumber").value.trim();
+
+  if (!holder || !number) {
+    notify("Remplissez les deux champs.");
+    return;
+  }
+
+  $("bankInfo").textContent =
+    "Coordonnées enregistrées localement : " + holder + " — " + number;
+
+  notify("Enregistré sur cet appareil.");
 }
 
-const productData=[
-['SUV électrique premium','Présentation véhicule','https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=800&q=80'],
-['SUV urbain','Présentation véhicule','https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80'],
-['SUV prestige','Présentation véhicule','https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=80'],
-['Édition élégance','Présentation véhicule','https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?auto=format&fit=crop&w=800&q=80']
+function copyCode() {
+  const value = $("inviteCode").value;
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(value)
+      .then(() => notify("Code copié."))
+      .catch(() => notify("Code : " + value));
+  } else {
+    notify("Code : " + value);
+  }
+}
+
+const productData = [
+  [
+    "SUV électrique premium",
+    "Présentation véhicule",
+    "https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=800&q=80"
+  ],
+  [
+    "SUV urbain",
+    "Présentation véhicule",
+    "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=800&q=80"
+  ],
+  [
+    "SUV prestige",
+    "Présentation véhicule",
+    "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=800&q=80"
+  ],
+  [
+    "Édition élégance",
+    "Présentation véhicule",
+    "https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?auto=format&fit=crop&w=800&q=80"
+  ]
 ];
 
-$('productList').innerHTML=productData.map(p=>`
-<article class="panel item">
-<img src="${p[2]}" alt="${p[0]}" loading="lazy">
-<div><strong>${p[0]}</strong><p class="muted">${p[1]}</p></div>
-</article>`).join('');
+$("productList").innerHTML = productData.map(product => `
+  <article class="panel item">
+    <img src="${product[2]}" alt="${product[0]}" loading="lazy">
+    <div>
+      <strong>${product[0]}</strong>
+      <p class="muted">${product[1]}</p>
+    </div>
+  </article>
+`).join("");
 
-if(currentUser){
-showScreen('home');
-}else{
-showScreen('register');
+/* ÉCRAN INITIAL */
+if (currentUser) {
+  showScreen("home");
+} else {
+  showScreen("register");
 }
 </script>
+
 </body>
 </html>
