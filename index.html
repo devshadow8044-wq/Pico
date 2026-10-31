@@ -2,75 +2,216 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f2f3f5">
-  <title>Accueil · RANGERS INVEST</title>
-  
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css">
-  <script src="/js/supabase-config.js" defer></script><script src="/js/supabase-client.js" defer></script><script src="/js/supabase-site.js" defer></script>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090c12">
+  <title>RANGERS INVEST — Plateforme</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: {
+      ink:'#090c12', panel:'#111720', line:'#29313c', gold:'#d6b879', muted:'#9aa5b3'
+    }}}}
+  </script>
+  <style>
+    :root{color-scheme:dark}
+    *{box-sizing:border-box}
+    body{margin:0;background:#090c12;color:#f4f6f8;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input,select{font:inherit}
+    .glass{background:rgba(14,19,27,.76);backdrop-filter:blur(14px);border:1px solid rgba(220,228,238,.22)}
+    .field{width:100%;border:1px solid #46505d;background:rgba(18,23,31,.76);border-radius:18px;padding:16px;color:#fff;outline:none}
+    .field:focus{border-color:#d6b879;box-shadow:0 0 0 2px #d6b87922}
+    .field::placeholder{color:#c0c6ce}
+    .btn-primary{background:#f7f8fa;color:#24303c;border-radius:999px;padding:13px 24px;font-weight:750}
+    .btn-gold{background:linear-gradient(120deg,#e4cc97,#b99555);color:#17191d;border-radius:14px;padding:12px 16px;font-weight:750}
+    .btn-ghost{border:1px solid #3a4552;background:#151c26;border-radius:14px;padding:11px 14px}
+    .screen{display:none;padding-bottom:100px;min-height:100vh}
+    .screen.active{display:block}
+    .nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(9,12,18,.96);border-top:1px solid #29313c;padding:9px 8px calc(9px + env(safe-area-inset-bottom));backdrop-filter:blur(18px)}
+    .nav button{display:flex;flex-direction:column;align-items:center;gap:4px;color:#8f9aa8;font-size:11px;min-width:0;flex:1}
+    .nav button.active{color:#e1c58d}
+    .nav .ico{font-size:20px;line-height:1.1}
+    .card{background:linear-gradient(145deg,#151d28,#10151d);border:1px solid #293440;border-radius:20px}
+    .hero{position:relative;overflow:hidden;background:linear-gradient(90deg,rgba(5,8,13,.88),rgba(5,8,13,.2)),url('https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1400&q=85') center/cover}
+    .auth-register{background:linear-gradient(180deg,rgba(5,8,13,.05) 0%,#090c12 52%,#090c12 100%),url('https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=1100&q=85') top center/100% auto no-repeat}
+    .auth-login{background:linear-gradient(180deg,rgba(5,8,13,.18),rgba(5,8,13,.38)),url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1100&q=85') center/cover}
+    .muted{color:#9aa5b3}
+    .gold{color:#dfc58f}
+    .pill{border:1px solid #394452;border-radius:999px;padding:6px 10px;font-size:11px;color:#c5ced8}
+    .stat{background:#151c25;border:1px solid #293440;border-radius:16px;padding:14px}
+    .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:80;background:#f5f6f7;color:#10151d;border-radius:12px;padding:11px 16px;font-size:13px;font-weight:700;display:none;max-width:90%;box-shadow:0 10px 35px #0008}
+    .modal{position:fixed;inset:0;background:#000b;z-index:70;display:none;align-items:center;justify-content:center;padding:20px}
+    .modal.show{display:flex}
+    .modalbox{width:min(100%,420px);background:#111720;border:1px solid #3a4552;border-radius:22px;padding:22px}
+    .vehicle{height:142px;object-fit:cover;width:100%;border-radius:15px;background:#222}
+    @media(min-width:700px){.shell{max-width:480px;margin:auto;border-left:1px solid #202833;border-right:1px solid #202833;min-height:100vh}.nav{max-width:480px;left:50%;transform:translateX(-50%);border-left:1px solid #29313c;border-right:1px solid #29313c}}
+  </style>
 </head>
-<body data-page="home">
-  <main class="shell">
-    <header class="topbar">
-      <a class="brand" href="/index.html"><span class="brand-monogram" aria-hidden="true">R</span><span>RANGERS INVEST</span></a>
-      <a class="top-action" href="/moi.html">Moi</a>
-    </header>
-    <div data-global-message hidden></div>
+<body>
+<div class="shell">
+  <div id="toast" class="toast"></div>
 
-    <section class="hero home-hero">
-      <h1>Votre espace RANGERS INVEST</h1>
-      <p>Consultez votre compte, les offres publiées et le suivi de vos demandes.</p>
-    </section>
-
-    <section data-signed-out class="card">
-      <h2 class="section-heading">Accéder à mon espace</h2>
-      <p class="subtle">Le compte et les demandes financières sont accessibles après connexion et activation.</p>
-      <div class="actions">
-        <a class="button" href="/login.html">Se connecter</a>
-        <a class="button secondary" href="/register.html">Créer un compte</a>
-      </div>
-    </section>
-
-    <section data-signed-in hidden>
-      <div class="account-summary">
-        <article class="balance-card">
-          <div class="balance-label">Solde du compte</div>
-          <div class="balance-amount price" data-balance>Non disponible</div>
-          <div class="row-meta">Montant issu du registre du compte</div>
-        </article>
-        <article class="balance-card">
-          <div class="balance-label">Revenus cumulés</div>
-          <div class="balance-amount" data-revenue>Non disponible</div>
-          <div class="row-meta">Affichés uniquement s’ils sont comptabilisés</div>
-        </article>
-      </div>
-      <article class="card">
-        <div class="stats">
-          <div class="stat"><span>Réservé</span><strong data-reserved>Non disponible</strong></div>
-          <div class="stat"><span>Disponible</span><strong data-available>Non disponible</strong></div>
-          <div class="stat"><span>État du compte</span><strong data-user-status>Non disponible</strong></div>
-          <div class="stat"><span>Pays</span><strong data-user-country>Non disponible</strong></div>
+  <!-- AUTH -->
+  <section id="register" class="screen active auth-register px-6 pt-8">
+    <div class="flex items-center justify-between"><span class="text-xs tracking-[.3em] gold font-bold">RANGERS INVEST</span><button onclick="showScreen('login')" class="text-sm underline">Connexion</button></div>
+    <div class="pt-52 pb-8">
+      <h1 class="text-4xl font-light text-center mb-3">Inscription</h1>
+      <p class="text-center text-sm text-slate-300 mb-9">Créez votre espace personnel</p>
+      <form onsubmit="registerUser(event)" class="space-y-4">
+        <div class="flex gap-2">
+          <select id="regCountry" class="field !w-[112px] !px-3"><option value="+221">🇸🇳 +221</option><option value="+225">🇨🇮 +225</option><option value="+228">🇹🇬 +228</option><option value="+229">🇧🇯 +229</option><option value="+223">🇲🇱 +223</option><option value="+226">🇧🇫 +226</option><option value="+224">🇬🇳 +224</option><option value="+237">🇨🇲 +237</option><option value="+234">🇳🇬 +234</option><option value="+33">🇫🇷 +33</option></select>
+          <input id="regPhone" class="field min-w-0" inputmode="tel" placeholder="Numéro de téléphone" required>
         </div>
-      </article>
-      <div class="actions">
-        <a class="button" href="/depot.html">Recharger</a>
-        <a class="button secondary" href="/retrait.html">Retirer</a>
-      </div>
-      <a class="row card-link" href="/historique.html"><span>Historique des opérations</span><span aria-hidden="true">›</span></a>
-    </section>
+        <input id="regPassword" class="field" type="password" minlength="6" placeholder="Saisissez votre mot de passe" required>
+        <input id="regConfirm" class="field" type="password" minlength="6" placeholder="Confirmez le mot de passe" required>
+        <input id="regInvite" class="field" placeholder="Code d'invitation (facultatif)">
+        <button class="btn-primary w-1/2 block mx-auto mt-7">S'inscrire</button>
+      </form>
+      <p class="text-center text-sm mt-8 text-slate-300">Vous avez déjà un compte ? <button onclick="showScreen('login')" class="underline text-white">Se connecter ›</button></p>
+    </div>
+    <p class="text-[10px] text-center text-slate-500 pb-5">Prototype d'interface — aucun dépôt ni investissement réel n'est effectué.</p>
+  </section>
 
-    <section class="card">
-      <h2 class="section-heading">Catalogue</h2>
-      <p class="subtle">Les offres apparaissent uniquement lorsque leurs conditions sont publiées.</p>
-      <a class="muted-link" href="/produits.html">Consulter les produits</a>
-    </section>
-    <p class="form-note"><a href="/admin-login.html">Connexion administrateur</a> · <a href="/conditions.html">Conditions</a></p>
-  </main>
-  <nav class="bottom-nav" aria-label="Navigation principale">
-    <a class="nav-item active" href="/index.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/></svg><span>Accueil</span></a>
-    <a class="nav-item" href="/produits.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v15H4zM8 5V3h8v2M8 10h8M8 14h8"/></svg><span>Produit</span></a>
-    <a class="nav-item" href="/equipe.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M15 15a4.5 4.5 0 0 1 6 4v1"/></svg><span>Équipe</span></a>
-    <a class="nav-item" href="/moi.html"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Moi</span></a>
+  <section id="login" class="screen auth-login px-6 pt-8">
+    <div class="flex justify-between"><span class="text-xs tracking-[.3em] gold font-bold">RANGERS INVEST</span><button onclick="showScreen('register')" class="text-sm underline">Inscription</button></div>
+    <div class="pt-48">
+      <h1 class="text-4xl font-light text-center mb-3">Connexion</h1><p class="text-center text-sm text-slate-200 mb-14">Accédez à votre compte</p>
+      <form onsubmit="loginUser(event)" class="space-y-4">
+        <div class="flex gap-2"><select id="loginCountry" class="field !w-[112px] !px-3"><option>+221</option><option>+225</option><option>+228</option><option>+229</option><option>+223</option><option>+226</option><option>+224</option><option>+237</option><option>+234</option><option>+33</option></select><input id="loginPhone" class="field min-w-0" placeholder="Numéro de téléphone" inputmode="tel" required></div>
+        <input id="loginPassword" class="field" type="password" placeholder="Saisissez votre mot de passe" required>
+        <button class="btn-primary block mx-auto mt-8">Se connecter</button>
+      </form>
+      <p class="text-center mt-10"><button onclick="showScreen('register')" class="underline">S'inscrire ›</button></p>
+    </div>
+  </section>
+
+  <!-- HOME -->
+  <section id="home" class="screen">
+    <header class="px-5 pt-7 pb-4 flex justify-between items-center"><div><p class="text-xs gold tracking-[.25em]">RANGERS INVEST</p><h2 class="text-2xl font-semibold">Bienvenue</h2></div><button class="pill" onclick="toast('Centre de notifications : démonstration')">通知 •</button></header>
+    <div class="mx-4 hero rounded-3xl p-5 min-h-[205px] flex flex-col justify-end">
+      <span class="pill w-fit mb-3">MOBILITÉ & INNOVATION</span><h2 class="text-2xl font-bold max-w-[250px]">Découvrez notre univers automobile</h2><p class="text-xs text-slate-200 mt-2">Consultez les offres et leurs conditions détaillées.</p>
+    </div>
+    <div class="px-4 mt-5 grid grid-cols-4 gap-2 text-center">
+      <button onclick="showScreen('recharge')" class="card p-3"><div class="text-2xl gold">＋</div><span class="text-[11px]">Recharger</span></button>
+      <button onclick="showScreen('withdraw')" class="card p-3"><div class="text-2xl gold">↗</div><span class="text-[11px]">Retirer</span></button>
+      <button onclick="toast('Service client : contactez @Rangers_invest_1978')" class="card p-3"><div class="text-2xl gold">◉</div><span class="text-[11px]">Assistance</span></button>
+      <button onclick="checkIn()" class="card p-3"><div class="text-2xl gold">✓</div><span class="text-[11px]">Pointage</span></button>
+    </div>
+    <div class="mx-4 mt-5 card p-4 flex items-center justify-between">
+      <div><p class="gold text-xs tracking-widest">ESPACE MEMBRE</p><h3 class="font-semibold mt-1">Centre de missions</h3><p class="text-xs muted mt-1">Consultez les activités disponibles.</p></div><button onclick="showScreen('team')" class="btn-gold text-sm">Explorer</button>
+    </div>
+    <div class="px-4 mt-6"><div class="flex justify-between items-center mb-3"><h3 class="font-semibold">Actualités</h3><span class="text-xs muted">Exemples simulés</span></div>
+      <div class="card p-4 space-y-3 text-sm"><p><span class="gold">●</span> Les nouvelles fiches véhicules sont disponibles dans Produit.</p><p><span class="gold">●</span> Pensez à consulter les conditions avant toute opération.</p><p><span class="gold">●</span> Les activités de démonstration ne représentent pas des transactions réelles.</p></div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products" class="screen">
+    <header class="px-5 pt-7 pb-5"><p class="text-xs gold tracking-[.25em]">CATALOGUE</p><h2 class="text-2xl font-semibold">Produits</h2><p class="muted text-sm mt-1">Fiches de démonstration — rendements non garantis.</p></header>
+    <div id="productList" class="px-4 space-y-4"></div>
+  </section>
+
+  <!-- TEAM -->
+  <section id="team" class="screen">
+    <header class="px-5 pt-7 pb-5"><p class="text-xs gold tracking-[.25em]">COMMUNAUTÉ</p><h2 class="text-2xl font-semibold">Équipe</h2></header>
+    <div class="px-4">
+      <div class="card p-5"><p class="muted text-sm">Récompenses cumulées (démo)</p><p class="text-3xl gold font-semibold mt-1">0 FCFA</p><div class="grid grid-cols-2 gap-3 mt-5"><div class="stat"><p class="muted text-xs">Membres</p><b class="text-xl">0</b></div><div class="stat"><p class="muted text-xs">Invitations</p><b class="text-xl">0</b></div></div></div>
+      <div class="card p-4 mt-4"><p class="text-sm font-semibold mb-2">Mon code d'invitation</p><div class="flex gap-2"><input id="inviteCode" class="field !py-3" value="RG-DEMO-2026" readonly><button onclick="copyText('RG-DEMO-2026')" class="btn-gold">Copier</button></div><p class="text-sm font-semibold mt-5 mb-2">Lien d'invitation</p><div class="flex gap-2"><input id="inviteLink" class="field !py-3 text-xs" readonly><button onclick="copyInviteLink()" class="btn-gold">Copier</button></div></div>
+      <div class="card p-4 mt-4"><h3 class="font-semibold mb-4">Niveaux de commission</h3><div class="space-y-3"><div class="flex justify-between"><span>Lv1</span><span class="gold">30 % indicatif</span></div><div class="flex justify-between"><span>Lv2</span><span class="gold">3 % indicatif</span></div><div class="flex justify-between"><span>Lv3</span><span class="gold">2 % indicatif</span></div></div><p class="text-xs muted mt-4">Les taux sont des paramètres de démonstration et ne constituent pas une promesse de rémunération.</p></div>
+    </div>
+  </section>
+
+  <!-- ACCOUNT -->
+  <section id="account" class="screen">
+    <header class="px-5 pt-7 pb-5"><p class="text-xs gold tracking-[.25em]">MON ESPACE</p><h2 class="text-2xl font-semibold">Compte</h2></header>
+    <div class="px-4">
+      <div class="card p-5"><div class="flex justify-between items-center"><div><p class="text-xs muted">Compte utilisateur</p><p id="accountPhone" class="font-semibold mt-1">Non connecté</p></div><span class="pill gold">Lv1</span></div>
+        <div class="grid grid-cols-2 gap-3 mt-5"><div class="stat"><p class="muted text-xs">Solde du compte</p><p class="text-xl font-semibold mt-1">0 <small class="text-xs">FCFA</small></p></div><div class="stat"><p class="muted text-xs">Revenus cumulés</p><p class="text-xl font-semibold mt-1">0 <small class="text-xs">FCFA</small></p></div></div>
+      </div>
+      <div class="grid grid-cols-3 gap-2 mt-4"><button onclick="showScreen('recharge')" class="btn-ghost text-sm">＋ Recharger</button><button onclick="showScreen('withdraw')" class="btn-ghost text-sm">↗ Retirer</button><button onclick="showScreen('history')" class="btn-ghost text-sm">▤ Historique</button></div>
+      <div class="card p-4 mt-4"><h3 class="font-semibold">Services</h3><div class="grid grid-cols-3 gap-3 mt-4 text-center text-xs">
+        <button onclick="toast('RANGERS INVEST — informations de démonstration')" class="stat">À propos</button><button onclick="toast('Contact : @Rangers_invest_1978')" class="stat">Service client</button><button onclick="showScreen('history')" class="stat">Historique</button>
+        <button onclick="toast('Les documents réglementaires seront ajoutés ici.')" class="stat">Réglementation</button><button onclick="toast('Application mobile non publiée.')" class="stat">Télécharger</button><button onclick="showScreen('bank')" class="stat">Lier une carte</button>
+        <button onclick="openPasswordModal()" class="stat">Changer MDP</button><button onclick="toast('Aucun code cadeau actif.')" class="stat">Code cadeau</button><button onclick="logout()" class="stat text-red-300">Déconnexion</button>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- RECHARGE -->
+  <section id="recharge" class="screen">
+    <header class="px-5 pt-7 pb-5 flex items-center gap-3"><button onclick="showScreen('account')" class="text-xl">‹</button><div><p class="text-xs gold">OPÉRATIONS</p><h2 class="text-2xl font-semibold">Recharge</h2></div></header>
+    <div class="px-4"><div class="card p-5"><label class="text-sm muted">Montant souhaité (FCFA)</label><input id="rechargeAmount" type="number" min="1" class="field mt-2" placeholder="Ex. 2 000"><div class="grid grid-cols-3 gap-2 mt-3"><button class="btn-ghost" onclick="setAmount('rechargeAmount',2000)">2 000</button><button class="btn-ghost" onclick="setAmount('rechargeAmount',5000)">5 000</button><button class="btn-ghost" onclick="setAmount('rechargeAmount',10000)">10 000</button></div><label class="text-sm muted block mt-5">Canal de paiement</label><select id="rechargeMethod" class="field mt-2"><option>Wave — à configurer</option><option>Orange Money — à configurer</option><option>Free Money — à configurer</option><option>MTN MoMo — à configurer</option></select><button onclick="submitDemoOperation('recharge')" class="btn-gold w-full mt-5">Créer une demande de test</button><p class="text-xs muted mt-4">Aucun paiement n'est déclenché. Connectez un prestataire agréé côté serveur avant toute collecte réelle.</p></div></div>
+  </section>
+
+  <!-- WITHDRAW -->
+  <section id="withdraw" class="screen">
+    <header class="px-5 pt-7 pb-5 flex items-center gap-3"><button onclick="showScreen('account')" class="text-xl">‹</button><div><p class="text-xs gold">OPÉRATIONS</p><h2 class="text-2xl font-semibold">Retrait</h2></div></header>
+    <div class="px-4"><div class="card p-5"><label class="text-sm muted">Montant du retrait (FCFA)</label><input id="withdrawAmount" type="number" min="1" class="field mt-2" placeholder="Montant"><label class="text-sm muted block mt-5">Destination</label><select id="withdrawDestination" class="field mt-2"><option>Wave</option><option>Orange Money</option><option>Compte bancaire lié</option></select><button onclick="submitDemoOperation('withdraw')" class="btn-gold w-full mt-5">Créer une demande de test</button><p class="text-xs muted mt-4">Cette maquette ne transfère pas d'argent et ne vérifie aucun solde réel.</p></div></div>
+  </section>
+
+  <!-- BANK -->
+  <section id="bank" class="screen">
+    <header class="px-5 pt-7 pb-5 flex items-center gap-3"><button onclick="showScreen('account')" class="text-xl">‹</button><div><p class="text-xs gold">PAIEMENTS</p><h2 class="text-2xl font-semibold">Lier un compte</h2></div></header>
+    <div class="px-4"><form onsubmit="saveBank(event)" class="card p-5 space-y-4"><input id="bankName" class="field" placeholder="Nom du titulaire" required><select id="bankType" class="field"><option>Wave</option><option>Orange Money</option><option>Free Money</option><option>Banque</option></select><input id="bankNumber" class="field" placeholder="Numéro de compte / téléphone" required><button class="btn-gold w-full">Enregistrer dans cette démo</button></form><div id="bankList" class="mt-4 space-y-2"></div></div>
+  </section>
+
+  <!-- HISTORY -->
+  <section id="history" class="screen">
+    <header class="px-5 pt-7 pb-5 flex items-center gap-3"><button onclick="showScreen('account')" class="text-xl">‹</button><div><p class="text-xs gold">ACTIVITÉ</p><h2 class="text-2xl font-semibold">Historique</h2></div></header>
+    <div id="historyList" class="px-4"><div class="card p-5 text-sm muted text-center">Aucune opération enregistrée.</div></div>
+  </section>
+
+  <nav id="bottomNav" class="nav hidden">
+    <div class="flex max-w-md mx-auto">
+      <button data-screen="home" onclick="showScreen('home')" class="active"><span class="ico">⌂</span>Accueil</button>
+      <button data-screen="products" onclick="showScreen('products')"><span class="ico">◇</span>Produit</button>
+      <button data-screen="team" onclick="showScreen('team')"><span class="ico">♧</span>Équipe</button>
+      <button data-screen="account" onclick="showScreen('account')"><span class="ico">◉</span>Moi</button>
+    </div>
   </nav>
+</div>
+
+<div id="confirmModal" class="modal"><div class="modalbox"><h3 id="modalTitle" class="text-xl font-semibold">Confirmation</h3><p id="modalText" class="muted text-sm mt-3">Confirmer cette action ?</p><div class="flex gap-3 mt-6"><button onclick="closeModal()" class="btn-ghost flex-1">Annuler</button><button id="modalConfirm" class="btn-gold flex-1">Confirmer</button></div></div></div>
+
+<script>
+const products=[
+ {name:'VIP 1 — Li Auto i6',price:2000,duration:'3 jours',daily:0,total:0,img:'https://images.unsplash.com/photo-1617469767053-d3b523a0b982?auto=format&fit=crop&w=900&q=80'},
+ {name:'VIP 2 — Li Auto i8',price:5000,duration:'3 jours',daily:0,total:0,img:'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=80'},
+ {name:'VIP 3 — SUV Premium',price:10000,duration:'3 jours',daily:0,total:0,img:'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=900&q=80'},
+ {name:'VIP 4 — Édition Prestige',price:25000,duration:'3 jours',daily:0,total:0,img:'https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?auto=format&fit=crop&w=900&q=80'}
+];
+let user=JSON.parse(localStorage.getItem('rg_user')||'null');
+let operations=JSON.parse(localStorage.getItem('rg_ops')||'[]');
+let bankAccounts=JSON.parse(localStorage.getItem('rg_bank')||'[]');
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.style.display='none',2600)}
+function showScreen(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+ const auth=['register','login'].includes(id);document.getElementById('bottomNav').classList.toggle('hidden',auth);
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.screen===id));
+ if(id==='account')document.getElementById('accountPhone').textContent=user?user.phone:'Non connecté';
+ if(id==='history')renderHistory();if(id==='bank')renderBanks();
+ window.scrollTo(0,0);
+}
+function registerUser(e){
+ e.preventDefault();const phone=document.getElementById('regCountry').value+document.getElementById('regPhone').value.trim(),p=document.getElementById('regPassword').value,c=document.getElementById('regConfirm').value;
+ if(p!==c)return toast('Les mots de passe ne correspondent pas.');
+ if(localStorage.getItem('rg_user'))return toast('Un compte de démonstration existe déjà sur cet appareil.');
+ user={phone,password:p};localStorage.setItem('rg_user',JSON.stringify(user));toast('Compte de démonstration créé.');showScreen('home');
+}
+function loginUser(e){e.preventDefault();const saved=JSON.parse(localStorage.getItem('rg_user')||'null'),phone=document.getElementById('loginCountry').value+document.getElementById('loginPhone').value.trim();if(!saved||saved.phone!==phone||saved.password!==document.getElementById('loginPassword').value)return toast('Identifiants incorrects ou compte absent.');user=saved;toast('Connexion réussie.');showScreen('home')}
+function logout(){user=null;toast('Déconnexion effectuée.');showScreen('login')}
+function renderProducts(){document.getElementById('productList').innerHTML=products.map((p,i)=>`<article class="card p-3"><img class="vehicle" src="${p.img}" alt="Véhicule ${p.name}" onerror="this.style.display='none'"><div class="flex justify-between items-start mt-4"><div><span class="pill">NIVEAU ${i+1}</span><h3 class="font-semibold mt-2">${p.name}</h3></div><span class="gold font-bold">${p.price.toLocaleString('fr-FR')} F</span></div><div class="grid grid-cols-3 gap-2 mt-4 text-center"><div class="stat"><p class="text-[10px] muted">Durée</p><b class="text-xs">${p.duration}</b></div><div class="stat"><p class="text-[10px] muted">Revenu/jour</p><b class="text-xs">À définir</b></div><div class="stat"><p class="text-[10px] muted">Total estimé</p><b class="text-xs">À définir</b></div></div><button onclick="productInfo(${i})" class="btn-gold w-full mt-4">Voir les conditions</button></article>`).join('')}
+function productInfo(i){document.getElementById('modalTitle').textContent=products[i].name;document.getElementById('modalText').textContent='Fiche de démonstration. Aucun achat réel ne peut être effectué. Les prix et rendements doivent être validés, documentés et autorisés avant toute commercialisation.';document.getElementById('modalConfirm').textContent='Compris';document.getElementById('modalConfirm').onclick=closeModal;document.getElementById('confirmModal').classList.add('show')}
+function closeModal(){document.getElementById('confirmModal').classList.remove('show')}
+function setAmount(id,n){document.getElementById(id).value=n}
+function submitDemoOperation(type){const id=type==='recharge'?'rechargeAmount':'withdrawAmount',amount=Number(document.getElementById(id).value);if(!Number.isFinite(amount)||amount<=0)return toast('Saisissez un montant valide.');const op={type,amount,date:new Date().toLocaleString('fr-FR'),status:'Simulation — non payée'};operations.unshift(op);localStorage.setItem('rg_ops',JSON.stringify(operations));toast('Demande de test enregistrée localement.');document.getElementById(id).value=''}
+function renderHistory(){const el=document.getElementById('historyList');el.innerHTML=operations.length?operations.map(o=>`<div class="card p-4 mb-3"><div class="flex justify-between"><b>${o.type==='recharge'?'Recharge':'Retrait'} — ${o.amount.toLocaleString('fr-FR')} FCFA</b><span class="gold text-xs">${o.status}</span></div><p class="muted text-xs mt-2">${o.date}</p></div>`).join(''):'<div class="card p-5 text-sm muted text-center">Aucune opération enregistrée.</div>'}
+function saveBank(e){e.preventDefault();bankAccounts.push({name:document.getElementById('bankName').value,type:document.getElementById('bankType').value,number:document.getElementById('bankNumber').value});localStorage.setItem('rg_bank',JSON.stringify(bankAccounts));e.target.reset();renderBanks();toast('Compte enregistré sur cet appareil.')}
+function renderBanks(){document.getElementById('bankList').innerHTML=bankAccounts.map(b=>`<div class="card p-4"><b>${b.type}</b><p class="text-sm muted">${b.name} · ${b.number}</p></div>`).join('')}
+function copyText(s){if(navigator.clipboard)navigator.clipboard.writeText(s).then(()=>toast('Copié.')).catch(()=>toast(s));else toast(s)}
+function copyInviteLink(){copyText(location.href+'?invite=RG-DEMO-2026')}
+function checkIn(){toast('Pointage de démonstration : aucun bonus réel attribué.')}
+function openPasswordModal(){toast('La modification sécurisée du mot de passe nécessite un backend.')}
+renderProducts();document.getElementById('inviteLink').value=location.href+'?invite=RG-DEMO-2026';
+if(user){showScreen('home')}else{showScreen('register')}
+</script>
 </body>
 </html>
