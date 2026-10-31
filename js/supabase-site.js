@@ -25,7 +25,7 @@
   const friendlyError = (error) => {
     const text = String(error?.message || "").toLowerCase();
     if (/invalid login credentials|invalid grant|invalid credentials/.test(text)) return "Numéro de téléphone ou mot de passe incorrect.";
-    if (/phone not confirmed|not confirmed/.test(text)) return "Ton numéro n’est pas encore vérifié. Termine la vérification par SMS.";
+    if (/phone not confirmed|not confirmed/.test(text)) return "Supabase exige la confirmation du téléphone. Désactive « Confirm phone » dans les réglages Auth pour l’inscription sans SMS.";
     if (/token.*(invalid|expired)|otp.*(invalid|expired)/.test(text)) return "Le code SMS est incorrect ou expiré. Demande un nouveau code dans Supabase.";
     if (/already registered|user already|phone.*exist/.test(text)) return "Ce numéro est peut-être déjà lié à un compte. Essaie de te connecter.";
     if (/phone.*disabled|phone.*not.*enabled|signup is disabled/.test(text)) return "Active la connexion par téléphone dans les réglages Auth de Supabase.";
@@ -96,14 +96,12 @@
       try {
         const { error } = await client.auth.signInWithPassword({ phone, password });
         if (error) throw error;
-        window.sessionStorage.removeItem("rangers_pending_phone");
         toHome();
       } catch (error) { formMessage(friendlyError(error)); }
       finally { setBusy(button, false, "Se connecter"); }
     });
 
     const registerForm = $('[data-auth-form="register"]');
-    const verifyForm = $('[data-auth-form="verify-signup"]');
     if (registerForm) bindAction(registerForm, async (event) => {
       event.preventDefault();
       formMessage("");
@@ -128,39 +126,15 @@
         });
         if (error) throw error;
         if (data?.session) {
-          formMessage("Compte créé et connecté.", "success");
+          formMessage("Compte créé et connecté. Le numéro n’a pas été vérifié par SMS.", "success");
           setTimeout(toHome, 700);
         } else {
-          window.sessionStorage.setItem("rangers_pending_phone", phone);
-          registerForm.hidden = true;
-          if (verifyForm) verifyForm.hidden = false;
-          show($("[data-auth-message]"), `Code SMS envoyé à ${phone}. Saisis les 6 chiffres reçus.`, "success");
-          $("#signupOtp")?.focus();
+          formMessage("Supabase attend la confirmation du téléphone. Pour éviter le code SMS, désactive « Confirm phone » dans Authentication → Providers.", "warning");
         }
       } catch (error) { formMessage(friendlyError(error)); }
       finally { setBusy(button, false, "Créer mon compte"); }
     });
 
-    if (verifyForm) bindAction(verifyForm, async (event) => {
-      event.preventDefault();
-      formMessage("");
-      if (!client) return formMessage(configMessage, "warning");
-      if (!validGroup(verifyForm)) return;
-      const phone = window.sessionStorage.getItem("rangers_pending_phone");
-      const token = String(byName(verifyForm, "token").value || "").trim();
-      if (!phone) return formMessage("Aucune inscription en attente. Recommence l’inscription.");
-      if (!/^\d{6}$/.test(token)) return formMessage("Le code doit contenir exactement 6 chiffres.");
-      const button = verifyForm.querySelector("[data-auth-submit]");
-      setBusy(button, true, "Vérification…");
-      try {
-        const { error } = await client.auth.verifyOtp({ phone, token, type: "sms" });
-        if (error) throw error;
-        window.sessionStorage.removeItem("rangers_pending_phone");
-        formMessage("Numéro vérifié. Ton compte est connecté.", "success");
-        setTimeout(toHome, 700);
-      } catch (error) { formMessage(friendlyError(error)); }
-      finally { setBusy(button, false, "Vérifier le numéro"); }
-    });
   }
 
   const main = $("main") || document.body;
@@ -180,7 +154,7 @@
     form.setAttribute("aria-disabled", "true");
   };
   document.querySelectorAll("form").forEach((form) => {
-    if (form.matches('[data-auth-form="login"],[data-auth-form="register"],[data-auth-form="verify-signup"]')) return;
+    if (form.matches('[data-auth-form="login"],[data-auth-form="register"]')) return;
     disableForm(form);
   });
 
