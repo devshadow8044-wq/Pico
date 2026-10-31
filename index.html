@@ -3,66 +3,37 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#07100f">
-  <meta name="description" content="Power Ranger Bot — interface de connexion par code de jumelage WhatsApp.">
-  <title>Power Ranger Bot — Pairing</title>
+  <meta name="theme-color" content="#f5fbf8">
+  <meta name="description" content="Power Ranger Bot — démo de pairing WhatsApp.">
+  <title>Power Ranger Bot — Démo</title>
   <style>
-    :root{--bg:#07100f;--panel:rgba(11,24,22,.88);--line:rgba(52,255,166,.2);--green:#35f6a0;--muted:#9ab5aa;--white:#edf9f3;--red:#ff837c}
-    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;overflow-x:hidden}
-    body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(ellipse at 50% -15%,rgba(27,120,81,.25),transparent 55%),linear-gradient(180deg,#07100f,#081411 60%,#07100f)}
-    .matrix{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;opacity:.14;color:#25d98a;font:12px/1.8 ui-monospace,SFMono-Regular,monospace;word-break:break-all;mask-image:linear-gradient(to bottom,black,transparent 92%)}
-    .matrix span{position:absolute;top:-30px;width:13%;animation:fall linear infinite;text-shadow:0 0 9px #10e989}.matrix span:nth-child(1){left:2%;animation-duration:18s}.matrix span:nth-child(2){left:17%;animation-duration:23s;animation-delay:-9s}.matrix span:nth-child(3){left:33%;animation-duration:20s;animation-delay:-4s}.matrix span:nth-child(4){left:51%;animation-duration:25s;animation-delay:-14s}.matrix span:nth-child(5){left:69%;animation-duration:19s;animation-delay:-7s}.matrix span:nth-child(6){left:86%;animation-duration:22s;animation-delay:-12s}@keyframes fall{to{transform:translateY(115vh)}}
-    .wrap{width:min(1060px,calc(100% - 36px));margin:auto}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.07)}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.3px}.brand-icon{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;display:grid;place-items:center;color:var(--green);background:rgba(53,246,160,.08);font-size:20px}.brand small{display:block;font-size:10px;letter-spacing:2px;color:var(--muted);font-weight:600;margin-top:2px}.nav-link{color:var(--muted);font-size:13px;text-decoration:none}.nav-link:hover{color:var(--green)}
-    .cover{position:relative;margin:34px 0 23px;height:238px;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(112deg,rgba(5,14,12,.92),rgba(8,30,23,.61)),repeating-linear-gradient(135deg,transparent 0 16px,rgba(53,246,160,.045) 16px 17px),radial-gradient(circle at 76% 50%,rgba(53,246,160,.19),transparent 32%),#0c1c18;display:flex;align-items:center;padding:clamp(22px,6vw,60px)}.cover:after{content:"";position:absolute;width:225px;height:225px;right:10%;top:50%;transform:translateY(-50%) rotate(45deg);border:1px solid rgba(53,246,160,.16);box-shadow:0 0 55px rgba(53,246,160,.09),inset 0 0 30px rgba(53,246,160,.05);border-radius:38px}.cover-copy{position:relative;z-index:1;max-width:610px}.eyebrow{color:var(--green);text-transform:uppercase;font-size:11px;font-weight:800;letter-spacing:2.4px}.cover h1{font-size:clamp(30px,5vw,52px);line-height:1.02;letter-spacing:-1.5px;margin:12px 0}.cover p{max-width:515px;color:#b3c9bf;margin:0;line-height:1.65;font-size:14px}.status{position:absolute;right:20px;top:20px;z-index:2;display:flex;align-items:center;gap:8px;font-size:11px;color:#c1d1c9;background:rgba(4,13,11,.65);border:1px solid rgba(255,255,255,.1);padding:8px 11px;border-radius:999px}.dot{width:7px;height:7px;background:#f1bd52;box-shadow:0 0 9px #f1bd52;border-radius:100%}
-    .intro{margin:30px 0 16px}.intro h2{font-size:23px;margin:0 0 7px}.intro p{color:var(--muted);font-size:14px;margin:0;line-height:1.6}.grid{display:grid;grid-template-columns:1fr .85fr;gap:18px;margin:18px 0 25px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:0 12px 42px rgba(0,0,0,.18);backdrop-filter:blur(10px)}.card h3{margin:0 0 8px;font-size:17px}.hint{margin:0 0 22px;color:var(--muted);font-size:13px;line-height:1.6}.label{display:block;font-size:12px;font-weight:700;margin-bottom:9px;color:#d6e7de}.input-row{display:flex;gap:9px}.input-row input{min-width:0;flex:1;border:1px solid rgba(255,255,255,.14);background:#07110f;color:var(--white);border-radius:11px;padding:13px 14px;font-size:14px;outline:none}.input-row input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(53,246,160,.1)}button{border:0;border-radius:11px;background:var(--green);color:#052116;padding:0 17px;font-weight:800;cursor:pointer;transition:.18s}button:hover{filter:brightness(1.08);transform:translateY(-1px)}button:disabled{opacity:.6;cursor:wait;transform:none}.small{font-size:11px;color:#81998e;line-height:1.6;margin:11px 0 0}.result{display:none;margin-top:17px;padding:15px;border-radius:12px;border:1px solid rgba(255,190,75,.28);background:rgba(255,190,75,.06);font-size:13px;line-height:1.55;color:#e3d4b1}.result.show{display:block}.code{display:block;color:var(--green);font:700 21px ui-monospace,monospace;letter-spacing:5px;margin:7px 0}.features{display:grid;gap:13px;margin-top:15px}.feature{display:flex;gap:12px;align-items:flex-start}.feature-icon{width:31px;height:31px;flex:none;border-radius:9px;background:rgba(53,246,160,.09);display:grid;place-items:center;color:var(--green);font-size:14px}.feature strong{font-size:13px;display:block;margin:1px 0 4px}.feature span{display:block;font-size:12px;color:var(--muted);line-height:1.5}.steps{padding:0;margin:15px 0 0;list-style:none;counter-reset:step;display:grid;gap:13px}.steps li{counter-increment:step;display:flex;align-items:flex-start;gap:11px;color:#c6d6ce;font-size:12px;line-height:1.55}.steps li:before{content:counter(step);width:23px;height:23px;flex:none;display:grid;place-items:center;border:1px solid var(--line);color:var(--green);border-radius:7px;font-weight:800;font-size:11px}.notice{border-left:2px solid var(--green);padding:10px 12px;background:rgba(53,246,160,.045);color:#9bb6a9;font-size:11px;line-height:1.6;margin-top:17px}.notice b{color:#cde6d8}footer{border-top:1px solid rgba(255,255,255,.07);padding:20px 0 26px;color:#71887d;font-size:11px;display:flex;justify-content:space-between;gap:12px}.footer-brand{color:#a7c0b4}
-    @media(max-width:720px){.cover{height:260px;margin-top:22px;padding:26px}.cover:after{right:-80px;opacity:.65}.status{top:auto;bottom:15px;right:14px}.grid{grid-template-columns:1fr}.card{padding:20px}.nav{height:66px}.cover h1{max-width:390px}.input-row{flex-direction:column}.input-row button{height:46px}}
-    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;scroll-behavior:auto!important}}
+    :root{--ink:#15251f;--muted:#75877f;--green:#12a96c;--line:#dcebe3;--white:#fff}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;overflow-x:hidden;background:#f5fbf8;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;display:flex;align-items:center;justify-content:center;padding:28px 18px;position:relative}
+    body:before,body:after{content:"";position:fixed;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(2px)}body:before{width:460px;height:460px;top:-170px;left:-140px;background:radial-gradient(circle,rgba(56,232,159,.28),rgba(56,232,159,0) 68%)}body:after{width:520px;height:520px;right:-190px;bottom:-220px;background:radial-gradient(circle,rgba(100,161,255,.22),rgba(190,132,255,.10) 35%,transparent 70%)}
+    .glow{position:fixed;z-index:-1;pointer-events:none;width:360px;height:200px;left:50%;top:35%;transform:translate(-50%,-50%);background:radial-gradient(ellipse,rgba(46,220,145,.13),transparent 70%);filter:blur(18px)}
+    main{width:min(100%,465px);text-align:center;position:relative}.cover{width:min(100%,340px);aspect-ratio:3/2;object-fit:cover;display:block;margin:0 auto 22px;border-radius:25px;box-shadow:0 18px 50px rgba(28,112,78,.14);border:1px solid rgba(255,255,255,.9)}
+    .demo{display:inline-flex;align-items:center;gap:7px;background:#e6f8ef;border:1px solid #caefdb;color:#128050;border-radius:999px;padding:7px 12px;text-transform:uppercase;letter-spacing:1.5px;font-size:10px;font-weight:800}.demo i{width:7px;height:7px;border-radius:50%;background:#19bf78;box-shadow:0 0 11px rgba(25,191,120,.55)}
+    h1{margin:13px 0 7px;font-size:clamp(30px,8vw,43px);letter-spacing:-1.5px;line-height:1.05;font-weight:850}.sub{margin:0 auto 25px;color:var(--muted);font-size:14px}
+    .panel{background:rgba(255,255,255,.79);backdrop-filter:blur(14px);border:1px solid rgba(217,234,225,.9);border-radius:19px;padding:20px;text-align:left;box-shadow:0 16px 50px rgba(22,65,46,.07)}label{display:block;margin:0 0 8px 2px;font-size:12px;font-weight:750;color:#43594e}.row{display:flex;gap:9px}input{min-width:0;flex:1;height:48px;border:1px solid var(--line);background:#fff;border-radius:11px;padding:0 13px;color:var(--ink);font:inherit;font-size:14px;outline:none}input:focus{border-color:#42c78d;box-shadow:0 0 0 3px rgba(18,169,108,.1)}button{height:48px;padding:0 16px;border:0;border-radius:11px;background:#122b21;color:white;font:700 13px inherit;font-weight:750;white-space:nowrap;cursor:pointer;box-shadow:0 5px 15px rgba(18,43,33,.13);transition:.18s}button:hover{background:#174b35;transform:translateY(-1px)}button:disabled{opacity:.6;cursor:wait}.result{display:none;margin-top:13px;padding:12px 13px;border:1px solid #dcebe3;background:#f4fbf7;border-radius:11px;color:#52685d;font-size:12px;line-height:1.5;overflow-wrap:anywhere}.result.show{display:block}.code{display:block;margin-top:5px;color:#087b4b;font:bold 22px ui-monospace,monospace;letter-spacing:5px}.foot{margin-top:17px;color:#91a198;font-size:10px;letter-spacing:.2px}
+    @media(max-width:420px){.cover{width:min(100%,310px);border-radius:21px}.panel{padding:16px}.row{flex-direction:column}button{width:100%}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
-<body>
-  <div class="matrix" aria-hidden="true"><span>01010110 00101101 01110011 01011010<br>const connect = await session.link();<br>0x4F 0x52 0x44 0x45 0x52<br>01001000 01000001 01000011 01001011<br>encrypt(channel); verify.session();</span><span>01100010 01101111 01110100<br>function pair(number){ return secure; }<br>0xA7 0x12 0xF0 0x6C<br>01010011 01011001 01010011 01010100<br>await client.initialize();</span><span>01010111 01001000 01000001 01010100<br>route.message('/pair');<br>10101010 01010101 01011010 00110011<br>const status = 'ready';<br>01000011 01001111 01000100 01000101</span><span>const socket = createSession();<br>00110101 01001001 01000100 01001011<br>secure handshake // channel online<br>01010010 01000001 01001110 01000111<br>auth.token.verify();</span><span>01010000 01001111 01010111 01000101<br>process.incoming(message);<br>0x21 0x83 0xFF 0x0A<br>01110100 01100101 01110011 01110100<br>run daemon --secure</span><span>const bot = new PowerRanger();<br>01100011 01101111 01101110 01101110<br>01000101 01000011 01010100 01000101<br>message.queue.listen();<br>0x01 0x10 0x11 0x00</span></div>
-  <div class="wrap">
-    <nav class="nav" aria-label="Navigation"><div class="brand"><div class="brand-icon">⌘</div><div>POWER RANGER<small>WHATSAPP BOT</small></div></div><a class="nav-link" href="#fonctionnalites">Fonctionnalités</a></nav>
-    <header class="cover"><div class="cover-copy"><div class="eyebrow">Connexion sécurisée · WhatsApp</div><h1>Power Ranger Bot</h1><p>Connecte ton compte WhatsApp au bot à l’aide d’un code de jumelage. Une interface simple, rapide et pensée pour rester claire.</p></div><div class="status"><i class="dot"></i> Serveur à connecter</div></header>
-    <section class="intro"><h2>Associer un appareil</h2><p>Entre ton numéro WhatsApp au format international pour demander un code de jumelage.</p></section>
-    <main class="grid">
-      <section class="card" aria-labelledby="pair-title"><h3 id="pair-title">Générer un pairing code</h3><p class="hint">Saisis le numéro de téléphone du compte WhatsApp que tu veux associer, avec l’indicatif du pays.</p>
-        <form id="pairForm"><label class="label" for="phone">Numéro WhatsApp</label><div class="input-row"><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Ex. +225 07 00 00 00 00" required><button id="submitBtn" type="submit">Demander le code</button></div><p class="small">Utilise uniquement un compte que tu es autorisé à connecter. Le vrai code doit être généré par le serveur du bot.</p></form>
-        <div id="result" class="result" role="status" aria-live="polite"></div>
-      </section>
-      <aside class="card"><h3>Comment ça marche ?</h3><ol class="steps"><li>Entre ton numéro avec son indicatif international.</li><li>Le serveur du bot demande un code de jumelage à WhatsApp.</li><li>Sur ton téléphone, ouvre WhatsApp et saisis le code dans les appareils connectés.</li></ol><div class="notice"><b>Important :</b> cette page est l’interface visuelle. La génération du code nécessite un backend WhatsApp connecté, à brancher sur l’API <code>/api/pair</code>.</div></aside>
-    </main>
-    <section class="card" id="fonctionnalites"><h3>Fonctionnalités</h3><div class="features"><div class="feature"><div class="feature-icon">⌁</div><div><strong>Jumelage par numéro</strong><span>Prévu pour demander un code via le serveur du bot.</span></div></div><div class="feature"><div class="feature-icon">◈</div><div><strong>Interface responsive</strong><span>Présentation adaptée aux téléphones, tablettes et ordinateurs.</span></div></div><div class="feature"><div class="feature-icon">⛨</div><div><strong>Connexion maîtrisée</strong><span>Le code n’est pas fabriqué dans le navigateur : il doit venir du backend.</span></div></div></div></section>
-    <footer><span class="footer-brand">POWER RANGER BOT</span><span>Pairing · Interface de démonstration</span></footer>
-  </div>
+<body><div class="glow" aria-hidden="true"></div>
+  <main>
+    <img class="cover" src="power-ranger-cover.png" alt="Illustration futuriste lumineuse de Power Ranger Bot">
+    <span class="demo"><i></i> Démo</span>
+    <h1>Power Ranger Bot</h1>
+    <p class="sub">WhatsApp Pairing</p>
+    <section class="panel">
+      <form id="pairForm"><label for="phone">Numéro WhatsApp</label><div class="row"><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+225 07 00 00 00 00" required><button id="submitBtn" type="submit">Obtenir le code</button></div></form>
+      <div id="result" class="result" role="status" aria-live="polite"></div>
+    </section>
+    <div class="foot">POWER RANGER BOT · VERSION DÉMO</div>
+  </main>
   <script>
-    const form=document.getElementById('pairForm');
-    const result=document.getElementById('result');
-    const button=document.getElementById('submitBtn');
-    form.addEventListener('submit',async(event)=>{
-      event.preventDefault();
-      const phone=document.getElementById('phone').value.trim();
-      const normalized=phone.replace(/[\s().-]/g,'');
-      if(!/^\+?[1-9]\d{7,14}$/.test(normalized)){
-        result.className='result show';
-        result.textContent='Vérifie le numéro : indique le code pays, puis les chiffres du numéro (8 à 15 chiffres au total).';
-        return;
-      }
-      button.disabled=true;button.textContent='Connexion…';
-      try{
-        const response=await fetch('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:normalized})});
-        const data=await response.json().catch(()=>({}));
-        if(!response.ok) throw new Error(data.message||'Le serveur n’a pas pu générer le code.');
-        result.className='result show';
-        result.innerHTML='Code de jumelage reçu :<span class="code"></span>'+(data.message||'Saisis ce code dans WhatsApp > Appareils connectés > Connecter un appareil.');
-        result.querySelector('.code').textContent=data.code||'Code indisponible';
-      }catch(error){
-        result.className='result show';
-        result.textContent=error.message==='Failed to fetch'||error instanceof TypeError
-          ?'Le backend du bot n’est pas encore connecté. Branche le serveur sur /api/pair pour générer un vrai code de jumelage.'
-          :error.message;
-      }finally{button.disabled=false;button.textContent='Demander le code';}
-    });
+    const form=document.getElementById('pairForm'),result=document.getElementById('result'),button=document.getElementById('submitBtn');
+    form.addEventListener('submit',async e=>{e.preventDefault();const phone=document.getElementById('phone').value.trim().replace(/[\s().-]/g,'');if(!/^\+?[1-9]\d{7,14}$/.test(phone)){result.className='result show';result.textContent='Vérifie le numéro et son indicatif pays.';return}button.disabled=true;button.textContent='Chargement…';try{const r=await fetch('/api/pair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone})});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.message||'Le serveur ne peut pas générer le code.');result.className='result show';result.innerHTML='Ton code de pairing :<span class="code"></span>';result.querySelector('.code').textContent=data.code||'Indisponible'}catch(err){result.className='result show';result.textContent=err instanceof TypeError?'Démo visuelle : connecte le backend du bot sur /api/pair pour générer un vrai code.':err.message}finally{button.disabled=false;button.textContent='Obtenir le code'}});
   </script>
 </body>
 </html>
