@@ -148,10 +148,13 @@ const tag=document.getElementById('tag'),msg='> WhatsApp Pairing — initialisat
 (function type(){if(n<=msg.length){tag.firstChild?tag.firstChild.nodeValue=msg.slice(0,n):tag.prepend(msg.slice(0,n));n++;setTimeout(type,38)}})();
 
 /* Musique */
-let ac=null,music=false;const mb=document.getElementById('musicBtn'),mt=document.getElementById('musicText');
-function startMusic(){const AC=window.AudioContext||window.webkitAudioContext;if(!AC){mt.textContent='Indisponible';return}ac=new AC();const g=ac.createGain();g.gain.value=.018;g.connect(ac.destination);[174.61,220,261.63].forEach((f,i)=>{const o=ac.createOscillator(),og=ac.createGain();o.type='sine';o.frequency.value=f;o.detune.value=(i-1)*4;og.gain.value=[.55,.34,.2][i];o.connect(og);og.connect(g);o.start()});music=true;mt.textContent='Musique : on';mb.setAttribute('aria-pressed','true')}
-function stopMusic(){if(ac){ac.close();ac=null}music=false;mt.textContent='Musique';mb.setAttribute('aria-pressed','false')}
-mb.addEventListener('click',()=>music?stopMusic():startMusic());
+const audio=new Audio('https://files.catbox.moe/yekp5z.m4a');audio.loop=true;audio.volume=.6;audio.preload='none';
+const mb=document.getElementById('musicBtn'),mt=document.getElementById('musicText');
+function setMusic(on){mb.setAttribute('aria-pressed',String(on));mt.textContent=on?'Musique : on':'Musique'}
+mb.addEventListener('click',()=>{
+  if(audio.paused){audio.play().then(()=>setMusic(true)).catch(()=>{mt.textContent='Erreur audio'})}
+  else{audio.pause();setMusic(false)}
+});
 
 /* Bouton + : service client / propriétaire */
 const LINKS={support:'https://wa.me/',owner:'https://wa.me/'}; // remplace par tes vrais liens (ex: https://wa.me/225XXXXXXXXXX)
