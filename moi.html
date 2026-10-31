@@ -6,10 +6,10 @@
   <meta name="theme-color" content="#f2f3f5">
   <title>Moi · RANGERS INVEST</title>
   
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/js/static-site.js" defer></script>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/styles.css">
+  <script src="/js/supabase-config.js" defer></script><script src="/js/supabase-client.js" defer></script><script src="/js/supabase-site.js" defer></script>
 </head>
-<body data-page="account"><section class="notice warning static-site-notice" role="status">Version statique : consultation uniquement. Aucun compte, mot de passe, dépôt, retrait ou changement n’est enregistré.</section>
+<body data-page="account">
   <main class="shell">
     <header class="topbar">
       <a class="brand" href="/index.html"><span class="brand-monogram" aria-hidden="true">R</span><span>RANGERS INVEST</span></a>
@@ -73,7 +73,7 @@
         <a href="/code-cadeau.html"><span class="shortcut-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9h18v12H3zM2 5h20v4H2zm10 4v12m0-16c-5-6-9 1 0 1m0 0c5-6 9 1 0 1"/></svg></span><span>Code cadeau</span></a>
       </div>
 
-      <button class="button light logout-button" data-logout type="button">Se déconnecter</button>
+      <button class="button light logout-button" data-logout type="button" hidden disabled>Se déconnecter</button>
     </section>
   </main>
   <nav class="bottom-nav" aria-label="Navigation principale">
